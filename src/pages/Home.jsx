@@ -1,12 +1,12 @@
 // import PropTypes from 'prop-types';
-import Tweet from '@/components/Tweet/Tweet';
-import { useState } from 'react';
-import s from './Home.module.scss';
-
-import { useGetUsersQuery } from '@/api/store';
+import Tweet from "@/components/Tweet/Tweet";
+import { useState } from "react";
+import s from "./Home.module.scss";
+import { useGetUsersQuery } from "@/api/store";
+import { Loader } from "../components/Loader/Loader";
 
 const Home = () => {
-  const { data = [] } = useGetUsersQuery();
+  const { data = [], isLoading } = useGetUsersQuery();
 
   const cardsInRow = 3;
   const [nextNumber, setNextNumber] = useState(cardsInRow);
@@ -18,6 +18,7 @@ const Home = () => {
   return (
     <div>
       <ul className={s.homePage}>
+        {isLoading && <Loader />}
         {data.slice(0, nextNumber).map((item) => (
           <Tweet key={item.id} {...item} />
         ))}
@@ -32,4 +33,3 @@ const Home = () => {
 };
 
 export default Home;
-

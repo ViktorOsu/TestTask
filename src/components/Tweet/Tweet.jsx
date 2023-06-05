@@ -1,6 +1,5 @@
 import { useState } from "react";
 import s from "./Tweet.module.scss";
-
 import PropTypes from "prop-types";
 import logo from "../../images/Vector.png";
 import dialog from "../../images/question.png";
@@ -13,12 +12,9 @@ import { setFollow, removeFollow } from "@/api/slice";
 const format = (value) => {
   const form = new Intl.NumberFormat("en", {
     style: "decimal",
-
-    // minimumFractionDigits: 2,
     useGrouping: "false",
   }).format(value);
-  // .replace(" ", ",");
-  // form.substring(0, 1) + " " + form.substring(1);
+
   return form;
 };
 
@@ -31,7 +27,7 @@ const Tweet = ({
   const selectFollowings = useSelector((state) => state.followers.follows);
   const checker = selectFollowings.some((item) => item?.id === id);
   const [isFollowing, setIsFollowing] = useState(checker);
-  const [putUser, { isSuccess }] = usePutUserMutation();
+  const [putUser, { isSuccess, isLoading }] = usePutUserMutation();
   const dispatch = useDispatch();
 
   const handleButtonClick = (id, followers) => {
@@ -50,16 +46,16 @@ const Tweet = ({
 
   return (
     <li id={id} className={s.wrapper}>
-      <div className={s.bg_logo}>
+      <div className={s.bgLogo}>
         <img src={logo} alt="logo" />
       </div>
-      <div className={s.bg_dialog}>
+      <div className={s.bgDialog}>
         <img src={dialog} alt="dialog background" />
       </div>
-      <div className={s.bg_bar}>
+      <div className={s.bgBar}>
         <img src={bar} alt="backround bar" />
       </div>
-      <div className={s.bg_ring}>
+      <div className={s.bgRing}>
         <img src={ring} alt="background ring" />
       </div>
       <img loading="lazy" src={avatar} alt="avatar" className={s.avatar} />
@@ -70,6 +66,7 @@ const Tweet = ({
         className={s.button}
         onClick={() => handleButtonClick(id, followers)}
         style={buttonStyle}
+        disabled={isLoading && !isSuccess}
       >
         {isFollowing ? "FOLLOWING" : "FOLLOW"}
       </button>

@@ -1,5 +1,5 @@
 import { Dna } from "react-loader-spinner";
-import s from "./Loader.module.css";
+import s from "../Loader/Loader.module.scss";
 
 export const Loader = () => {
   return (
